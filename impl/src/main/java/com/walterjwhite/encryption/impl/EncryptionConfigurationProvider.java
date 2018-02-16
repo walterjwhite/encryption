@@ -1,0 +1,42 @@
+package com.walterjwhite.encryption.impl;
+
+import com.walterjwhite.encryption.enumeration.*;
+import com.walterjwhite.encryption.property.EncryptionKeyLength;
+import com.walterjwhite.encryption.property.EncryptionSaltLength;
+import com.walterjwhite.encryption.property.HashIterations;
+import com.walterjwhite.encryption.property.InitializationVectorLength;
+import com.walterjwhite.google.guice.property.property.Property;
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+// TODO: rewrite this to a Configuration Provider
+public class EncryptionConfigurationProvider implements Provider<EncryptionConfiguration> {
+  protected final EncryptionConfiguration encryptionConfiguration;
+
+  @Inject
+  public EncryptionConfigurationProvider(
+      @Property(EncryptionAlgorithm.class) EncryptionAlgorithm encryptionAlgorithm,
+      @Property(TransformationAlgorithm.class) TransformationAlgorithm transformationAlgorithm,
+      @Property(PaddingType.class) PaddingType paddingType,
+      @Property(DigestAlgorithm.class) DigestAlgorithm digestAlgorithm,
+      @Property(EncryptionSaltLength.class) int saltLength,
+      @Property(EncryptionKeyLength.class) int keyLength,
+      @Property(HashIterations.class) int hashIterations,
+      @Property(InitializationVectorLength.class) int ivLength) {
+    encryptionConfiguration =
+        new EncryptionConfiguration(
+            encryptionAlgorithm,
+            transformationAlgorithm,
+            paddingType,
+            digestAlgorithm,
+            saltLength,
+            keyLength,
+            hashIterations,
+            ivLength);
+  }
+
+  @Override
+  public EncryptionConfiguration get() {
+    return encryptionConfiguration;
+  }
+}
