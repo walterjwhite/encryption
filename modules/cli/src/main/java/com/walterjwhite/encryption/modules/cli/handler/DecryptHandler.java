@@ -1,18 +1,19 @@
 package com.walterjwhite.encryption.modules.cli.handler;
 
 import com.walterjwhite.encryption.api.service.EncryptionService;
-import com.walterjwhite.google.guice.cli.property.CommandLineHandlerShutdownTimeout;
-import com.walterjwhite.google.guice.cli.service.AbstractCommandLineHandler;
-import com.walterjwhite.google.guice.property.property.Property;
+import com.walterjwhite.inject.cli.property.CommandLineHandlerShutdownTimeout;
+import com.walterjwhite.inject.cli.service.AbstractCommandLineHandler;
+import com.walterjwhite.property.impl.annotation.Property;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import javax.inject.Inject;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Helper to list our client id. */
 public class DecryptHandler extends AbstractCommandLineHandler {
-  private static final Logger LOGGER = LoggerFactory.getLogger(DecryptHandler.class);
-
   protected final EncryptionService encryptionService;
 
   @Inject
@@ -24,14 +25,31 @@ public class DecryptHandler extends AbstractCommandLineHandler {
   }
 
   @Override
-  public void run(final String... arguments) throws Exception {
+  protected void doRun(final String... arguments)
+      throws InvalidAlgorithmParameterException, InvalidKeyException, IOException {
+    validateInput(arguments);
+    doRunInstance(arguments);
+  }
+
+  protected void validateInput(final String[] arguments) {
     if (arguments == null || arguments.length == 0) {
       System.err.println("Please specify at least 1 argument to encrypt");
       System.exit(1);
-    } else {
-      for (final String argument : arguments) {
-        System.out.println(new String(encryptionService.decrypt(Base64.decodeBase64(argument))));
-      }
     }
+  }
+
+  protected void doRunInstance(final String[] arguments)
+      throws InvalidAlgorithmParameterException, InvalidKeyException, IOException {
+    for (final String argument : arguments) {
+      doRunInstance(argument);
+    }
+  }
+
+  protected void doRunInstance(final String argument)
+      throws InvalidAlgorithmParameterException, InvalidKeyException, IOException {
+    final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    encryptionService.decrypt(
+        new ByteArrayInputStream(Base64.decodeBase64(argument)), byteArrayOutputStream);
+    System.out.println(new String(byteArrayOutputStream.toByteArray()));
   }
 }

@@ -1,11 +1,14 @@
 package com.walterjwhite.encryption.impl;
 
-import com.walterjwhite.encryption.enumeration.*;
+import com.walterjwhite.encryption.enumeration.DigestAlgorithm;
+import com.walterjwhite.encryption.enumeration.EncryptionAlgorithm;
+import com.walterjwhite.encryption.enumeration.PaddingType;
+import com.walterjwhite.encryption.enumeration.TransformationAlgorithm;
 import com.walterjwhite.encryption.property.EncryptionKeyLength;
 import com.walterjwhite.encryption.property.EncryptionSaltLength;
 import com.walterjwhite.encryption.property.HashIterations;
 import com.walterjwhite.encryption.property.InitializationVectorLength;
-import com.walterjwhite.google.guice.property.property.Property;
+import com.walterjwhite.property.impl.annotation.Property;
 import javax.inject.Inject;
 import javax.inject.Provider;
 

@@ -1,0 +1,5 @@
+group = 'com.walterjwhite.modules.encryption'
+description = 'encryption - impl'
+dependencies {
+  compile project(':infrastructure:datastore:api:service')
+}

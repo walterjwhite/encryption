@@ -1,19 +1,16 @@
 package com.walterjwhite.encryption.modules.cli.handler;
 
 import com.walterjwhite.encryption.api.service.EncryptionService;
-import com.walterjwhite.google.guice.cli.property.CommandLineHandlerShutdownTimeout;
-import com.walterjwhite.google.guice.cli.service.AbstractCommandLineHandler;
-import com.walterjwhite.google.guice.property.property.Property;
+import com.walterjwhite.inject.cli.property.CommandLineHandlerShutdownTimeout;
+import com.walterjwhite.inject.cli.service.AbstractCommandLineHandler;
+import com.walterjwhite.logging.annotation.Sensitive;
+import com.walterjwhite.property.impl.annotation.Property;
+import java.io.*;
 import java.nio.charset.Charset;
 import javax.inject.Inject;
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Helper to list our client id. */
 public class EncryptHandler extends AbstractCommandLineHandler {
-  private static final Logger LOGGER = LoggerFactory.getLogger(EncryptHandler.class);
-
   protected final EncryptionService encryptionService;
 
   @Inject
@@ -25,16 +22,20 @@ public class EncryptHandler extends AbstractCommandLineHandler {
   }
 
   @Override
-  public void run(final String... arguments) throws Exception {
-    if (arguments == null || arguments.length == 0) {
-      System.err.println("Please specify at least 1 argument to encrypt");
-      System.exit(1);
-    } else {
-      for (final String argument : arguments) {
-        System.out.println(
-            Base64.encodeBase64String(
-                encryptionService.encrypt(argument.getBytes(Charset.defaultCharset()))));
-      }
-    }
+  protected void doRun(final String... arguments) throws Exception {
+    System.out.println(doEncrypt());
+  }
+
+  @Sensitive
+  protected String getInput() throws IOException {
+    return new BufferedReader(new InputStreamReader(System.in)).readLine();
+  }
+
+  protected String doEncrypt() throws IOException {
+    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    encryptionService.encrypt(
+        new ByteArrayInputStream(getInput().getBytes(Charset.defaultCharset())), baos);
+
+    return new String(baos.toByteArray());
   }
 }

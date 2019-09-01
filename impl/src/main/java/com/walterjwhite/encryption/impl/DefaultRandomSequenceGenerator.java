@@ -1,6 +1,6 @@
 package com.walterjwhite.encryption.impl;
 
-import com.walterjwhite.encryption.api.service.RandomSequenceGenerator;
+import com.walterjwhite.encryption.service.RandomSequenceGenerator;
 import org.apache.commons.text.RandomStringGenerator;
 
 public class DefaultRandomSequenceGenerator implements RandomSequenceGenerator {
@@ -23,7 +23,7 @@ public class DefaultRandomSequenceGenerator implements RandomSequenceGenerator {
   }
 
   protected int getLength(int minLength, int maxLength) {
-    return ((int) Math.random() * maxLength + minLength);
+    return (int) Math.round(Math.random() * maxLength + minLength);
   }
 
   @Override

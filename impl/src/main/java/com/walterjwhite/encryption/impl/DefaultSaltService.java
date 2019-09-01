@@ -1,8 +1,8 @@
 package com.walterjwhite.encryption.impl;
 
-import com.walterjwhite.encryption.api.service.SaltService;
 import com.walterjwhite.encryption.property.EncryptionSaltLength;
-import com.walterjwhite.google.guice.property.property.Property;
+import com.walterjwhite.encryption.service.SaltService;
+import com.walterjwhite.property.impl.annotation.Property;
 import java.security.SecureRandom;
 import javax.inject.Inject;
 

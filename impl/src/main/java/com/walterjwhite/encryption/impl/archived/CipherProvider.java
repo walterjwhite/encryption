@@ -9,7 +9,7 @@
 // import org.slf4j.LoggerFactory;
 //
 // public class CipherProvider implements Provider<Cipher> {
-//  private static final Logger LOGGER = LoggerFactory.getLogger(CipherProvider.class);
+
 //
 //  protected final EncryptionConfiguration encryptionConfiguration;
 //

@@ -1,20 +1,16 @@
 package com.walterjwhite.encryption.impl;
 
-import com.walterjwhite.encryption.api.service.EncryptionService;
-import java.io.*;
-import java.security.*;
+import com.walterjwhite.encryption.service.EncryptionService;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 import javax.inject.Inject;
 import org.apache.commons.crypto.stream.CryptoInputStream;
 import org.apache.commons.crypto.stream.CryptoOutputStream;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DefaultEncryptionService implements EncryptionService {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DefaultEncryptionService.class);
-
   protected final RuntimeEncryptionConfiguration runtimeEncryptionConfiguration;
 
   protected final EncryptionConfiguration encryptionConfiguration;
@@ -28,63 +24,41 @@ public class DefaultEncryptionService implements EncryptionService {
     this.encryptionConfiguration = encryptionConfiguration;
   }
 
-  //  @Autowired
-  //  protected Client client;
-
-  //  @Autowired protected Cipher cipher;
-
   @Override
-  public byte[] encrypt(byte[] plaintextData)
-      throws IOException, InvalidAlgorithmParameterException, InvalidKeyException {
-    try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-      try (final ByteArrayInputStream bais = new ByteArrayInputStream(plaintextData)) {
-        encrypt(bais, baos);
-        return (baos.toByteArray());
-      }
+  public void encrypt(final InputStream plaintextStream, OutputStream outputStream)
+      throws IOException {
+    try (final OutputStream encryptedOutputStream = getEncryptionStream(outputStream)) {
+      IOUtils.copy(plaintextStream, encryptedOutputStream);
+      encryptedOutputStream.flush();
     }
   }
 
   @Override
-  public void encrypt(InputStream plaintextData, OutputStream cipherStream)
-      throws IOException, InvalidAlgorithmParameterException, InvalidKeyException {
-    Properties properties = new Properties();
+  public OutputStream getEncryptionStream(OutputStream outputStream) throws IOException {
+    return new CryptoOutputStream(
+        getTransformation(),
+        new Properties(),
+        outputStream,
+        runtimeEncryptionConfiguration.getKey(),
+        runtimeEncryptionConfiguration.getIv());
+  }
 
-    try (CryptoOutputStream cos =
-        new CryptoOutputStream(
-            getTransformation(),
-            properties,
-            cipherStream,
-            runtimeEncryptionConfiguration.getKey(),
-            runtimeEncryptionConfiguration.getIv())) {
-      cos.write(IOUtils.toByteArray(plaintextData));
-      cos.flush();
+  @Override
+  public void decrypt(InputStream cipherStream, OutputStream plaintextStream) throws IOException {
+    try (final InputStream decryptedOutputStream = getDecryptionStream(cipherStream)) {
+      IOUtils.copy(decryptedOutputStream, plaintextStream);
+      plaintextStream.flush();
     }
   }
 
   @Override
-  public byte[] decrypt(byte[] ciphertextData)
-      throws IOException, InvalidAlgorithmParameterException, InvalidKeyException {
-    try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-      try (final ByteArrayInputStream bais = new ByteArrayInputStream(ciphertextData)) {
-        decrypt(bais, baos);
-        return (baos.toByteArray());
-      }
-    }
-  }
-
-  @Override
-  public void decrypt(InputStream cipherStream, OutputStream plaintextStream)
-      throws InvalidAlgorithmParameterException, InvalidKeyException, IOException {
-    Properties properties = new Properties();
-    try (CryptoInputStream cis =
-        new CryptoInputStream(
-            getTransformation(),
-            properties,
-            cipherStream,
-            runtimeEncryptionConfiguration.getKey(),
-            runtimeEncryptionConfiguration.getIv())) {
-      IOUtils.copy(cis, plaintextStream);
-    }
+  public InputStream getDecryptionStream(InputStream cipherStream) throws IOException {
+    return new CryptoInputStream(
+        getTransformation(),
+        new Properties(),
+        cipherStream,
+        runtimeEncryptionConfiguration.getKey(),
+        runtimeEncryptionConfiguration.getIv());
   }
 
   protected String getTransformation() {

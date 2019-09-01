@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ "$#" -gt "0" ]
+then
+	>&2 echo -e "ERROR - no this command takes no arguments"
+	exit 1
+fi
+
+java -jar target/cli-*-shaded.jar -KeyFilePath $(cat key.file.path.secret) -IVFilePath $(cat iv.file.path.secret) -EncryptionOperatingMode Encrypt

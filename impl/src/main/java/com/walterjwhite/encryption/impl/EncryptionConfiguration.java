@@ -1,7 +1,9 @@
 package com.walterjwhite.encryption.impl;
 
 import com.walterjwhite.encryption.enumeration.*;
+import lombok.Getter;
 
+@Getter
 public class EncryptionConfiguration {
   protected final int saltLength;
   protected final int keyLength;
@@ -32,37 +34,5 @@ public class EncryptionConfiguration {
     this.keyLength = keyLength;
     this.hashIterations = hashIterations;
     this.ivLength = ivLength;
-  }
-
-  public EncryptionAlgorithm getEncryptionAlgorithm() {
-    return encryptionAlgorithm;
-  }
-
-  public TransformationAlgorithm getTransformationAlgorithm() {
-    return transformationAlgorithm;
-  }
-
-  public PaddingType getPaddingType() {
-    return paddingType;
-  }
-
-  public DigestAlgorithm getDigestAlgorithm() {
-    return digestAlgorithm;
-  }
-
-  public int getSaltLength() {
-    return saltLength;
-  }
-
-  public int getKeyLength() {
-    return keyLength;
-  }
-
-  public int getHashIterations() {
-    return hashIterations;
-  }
-
-  public int getIvLength() {
-    return ivLength;
   }
 }
