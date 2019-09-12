@@ -2,18 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.walterjwhite.java.modules.encryption</groupId>
-    <artifactId>modules</artifactId>
+    <groupId>com.walterjwhite.java.modules</groupId>
+    <artifactId>encryption</artifactId>
     <version>0.0.17-SNAPSHOT</version>
   </parent>
-  <groupId>com.walterjwhite.java.modules.encryption.modules</groupId>
-  <artifactId>cli</artifactId>
+  <groupId>com.walterjwhite.java.modules.encryption</groupId>
+  <artifactId>modules</artifactId>
   <version>0.0.17-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>cli</name>
-  <description>cli</description>
+  <name>modules</name>
+  <description>modules</description>
   <modules>
-    <module>impl</module>
-    <module>providers</module>
+    <module>cli</module>
   </modules>
 </project>

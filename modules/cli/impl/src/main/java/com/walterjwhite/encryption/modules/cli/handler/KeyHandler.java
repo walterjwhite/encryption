@@ -1,7 +1,7 @@
 package com.walterjwhite.encryption.modules.cli.handler;
 
-import com.walterjwhite.encryption.api.service.SaltService;
 import com.walterjwhite.encryption.property.EncryptionKeyLength;
+import com.walterjwhite.encryption.service.SaltService;
 import com.walterjwhite.inject.cli.property.CommandLineHandlerShutdownTimeout;
 import com.walterjwhite.inject.cli.service.AbstractCommandLineHandler;
 import com.walterjwhite.property.impl.annotation.Property;

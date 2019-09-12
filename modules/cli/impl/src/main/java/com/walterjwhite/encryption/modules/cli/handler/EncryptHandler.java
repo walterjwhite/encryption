@@ -1,6 +1,6 @@
 package com.walterjwhite.encryption.modules.cli.handler;
 
-import com.walterjwhite.encryption.api.service.EncryptionService;
+import com.walterjwhite.encryption.service.EncryptionService;
 import com.walterjwhite.inject.cli.property.CommandLineHandlerShutdownTimeout;
 import com.walterjwhite.inject.cli.service.AbstractCommandLineHandler;
 import com.walterjwhite.logging.annotation.Sensitive;

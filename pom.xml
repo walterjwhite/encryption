@@ -16,7 +16,7 @@
   <modules>
     <module>api</module>
     <module>impl</module>
-    <!--    <module>modules</module> -->
+    <module>modules</module>
     <module>providers</module>
   </modules>
   <scm>

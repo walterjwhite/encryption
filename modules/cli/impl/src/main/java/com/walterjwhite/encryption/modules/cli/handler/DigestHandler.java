@@ -1,8 +1,9 @@
 package com.walterjwhite.encryption.modules.cli.handler;
 
-import com.walterjwhite.encryption.api.service.FieldEncryptionService;
 import com.walterjwhite.encryption.enumeration.EncryptionType;
+import com.walterjwhite.encryption.model.EncryptedEntity;
 import com.walterjwhite.encryption.modules.cli.SecretData;
+import com.walterjwhite.encryption.service.FieldEncryptionService;
 import com.walterjwhite.inject.cli.property.CommandLineHandlerShutdownTimeout;
 import com.walterjwhite.inject.cli.service.AbstractCommandLineHandler;
 import com.walterjwhite.logging.annotation.Sensitive;
@@ -26,7 +27,8 @@ public class DigestHandler extends AbstractCommandLineHandler {
 
   @Override
   protected void doRun(final String... arguments) throws Exception {
-    final SecretData secretData = new SecretData(getInput());
+    final SecretData secretData =
+        new SecretData(new EncryptedEntity(getInput(), EncryptionType.Digest));
 
     doDigest(secretData);
     showResult(secretData);
@@ -43,7 +45,7 @@ public class DigestHandler extends AbstractCommandLineHandler {
   }
 
   protected void showResult(SecretData secretData) {
-    System.out.println(secretData.getPasswordEncrypted());
-    System.out.println(secretData.getPasswordSalt());
+    System.out.println(secretData.getData().getCipherText());
+    System.out.println(secretData.getData().getSalt());
   }
 }
