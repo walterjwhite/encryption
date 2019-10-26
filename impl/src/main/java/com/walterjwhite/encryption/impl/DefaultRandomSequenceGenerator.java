@@ -37,6 +37,6 @@ public class DefaultRandomSequenceGenerator implements RandomSequenceGenerator {
     //    RandomStringGenerator generator = builder.build();
     //
     //    return generator.generate(getLength(minLength, maxLength));
-    throw (new UnsupportedOperationException("NOT SUPPORTED"));
+    throw new UnsupportedOperationException("NOT SUPPORTED");
   }
 }

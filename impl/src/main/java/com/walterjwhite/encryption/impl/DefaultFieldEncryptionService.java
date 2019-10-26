@@ -60,12 +60,12 @@ public class DefaultFieldEncryptionService implements FieldEncryptionService {
 
       FieldUtil.setValue(e, encryptedField, encryptedValue);
     } catch (Exception exception) {
-      throw (new EncryptionException(exception));
+      throw new EncryptionException(exception);
     }
   }
 
   protected String doDigest(final String plaintext, final byte[] salt) {
-    throw (new UnsupportedOperationException("Un-implemented."));
+    throw new UnsupportedOperationException("Un-implemented.");
   }
 
   public void decrypt(Object e, Field field, EncryptionType encryptionType) throws Exception {

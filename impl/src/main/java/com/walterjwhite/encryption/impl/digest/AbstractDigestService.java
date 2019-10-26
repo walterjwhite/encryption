@@ -48,7 +48,7 @@ public abstract class AbstractDigestService implements DigestService {
   }
 
   //    public String hash(final byte[] data, int count) {
-  //        throw (new UnsupportedOperationException("Not yet implemented."));
+  //        throw new UnsupportedOperationException("Not yet implemented."));
   //
   //        //    final MessageDigest messageDigest =
   //        //            MessageDigest.getInstance(

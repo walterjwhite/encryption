@@ -30,7 +30,7 @@
 //              + encryptionConfiguration.getPaddingType().name());
 //    } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 //      LOGGER.error("Error initializing cipher", e);
-//      throw (new RuntimeException(e));
+//      throw new RuntimeException(e));
 //    }
 //  }
 //
